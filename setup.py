@@ -29,6 +29,8 @@ class build_ext_compiler_check(build_ext):
             ext.extra_compile_args = args
             if self.compiler.compiler_type == "msvc":
                 ext.define_macros.extend([("restrict", "__restrict")])
+            else:
+                ext.extra_compile_args.append("-msse4.1")
         super().build_extensions()
 
 

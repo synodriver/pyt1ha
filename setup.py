@@ -20,6 +20,7 @@ for compiler, args in [
 ]:
     BUILD_ARGS[compiler] = args
 
+os.environ["CFLAGS"] = "-march=native" #"-msse4.1 -mfma -mavx -march=native"
 
 class build_ext_compiler_check(build_ext):
     def build_extensions(self):
@@ -30,7 +31,8 @@ class build_ext_compiler_check(build_ext):
             if self.compiler.compiler_type == "msvc":
                 ext.define_macros.extend([("restrict", "__restrict")])
             else:
-                ext.extra_compile_args.append("-msse4.1")
+                pass
+                # ext.extra_compile_args.extend(["-msse4.1", "-mfma", "-mavx"])
         super().build_extensions()
 
 

@@ -10,17 +10,17 @@
         "name": "t1ha.backends.cython._hash_cy",
         "sources": [
             "t1ha/backends/cython/_hash_cy.pyx",
-            "./dep/src\\t1ha0.c",
-            "./dep/src\\t1ha0_ia32aes_avx.c",
-            "./dep/src\\t1ha0_ia32aes_avx2.c",
-            "./dep/src\\t1ha0_ia32aes_noavx.c",
-            "./dep/src\\t1ha0_selfcheck.c",
-            "./dep/src\\t1ha1.c",
-            "./dep/src\\t1ha1_selfcheck.c",
-            "./dep/src\\t1ha2.c",
-            "./dep/src\\t1ha2_selfcheck.c",
-            "./dep/src\\t1ha_selfcheck.c",
-            "./dep/src\\t1ha_selfcheck_all.c"
+            "./dep/src/t1ha_selfcheck.c",
+            "./dep/src/t1ha0.c",
+            "./dep/src/t1ha1.c",
+            "./dep/src/t1ha_selfcheck_all.c",
+            "./dep/src/t1ha2.c",
+            "./dep/src/t1ha0_ia32aes_noavx.c",
+            "./dep/src/t1ha0_ia32aes_avx2.c",
+            "./dep/src/t1ha2_selfcheck.c",
+            "./dep/src/t1ha0_selfcheck.c",
+            "./dep/src/t1ha0_ia32aes_avx.c",
+            "./dep/src/t1ha1_selfcheck.c"
         ]
     },
     "module_name": "t1ha.backends.cython._hash_cy"
@@ -937,7 +937,7 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "stringsource",
-  "t1ha\\backends\\cython\\_hash_cy.pyx",
+  "t1ha/backends/cython/_hash_cy.pyx",
 };
 /* NoFastGil.proto */
 #define __Pyx_PyGILState_Ensure PyGILState_Ensure

@@ -1,0 +1,3 @@
+recursive-include t1ha *
+recursive-include dep  *
+include README.markdown

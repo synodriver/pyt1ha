@@ -100,7 +100,7 @@ def main():
 
     dis = get_dis()
     setup(
-        name="bzip3",
+        name="t1ha",
         version=version,
         url="https://github.com/synodriver/python-t1ha",
         packages=packages,

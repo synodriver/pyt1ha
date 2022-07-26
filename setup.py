@@ -102,7 +102,7 @@ def main():
     setup(
         name="t1ha",
         version=version,
-        url="https://github.com/synodriver/python-t1ha",
+        url="https://github.com/synodriver/pyt1ha",
         packages=packages,
         keywords=["hash"],
         description="t1ha hash",

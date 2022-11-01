@@ -2,7 +2,8 @@
 Copyright (c) 2008-2022 synodriver <synodriver@gmail.com>
 """
 import os
-
+import sys
+sys.path.append(".")
 os.environ["T1HA_USE_CFFI"] = "1"
 
 from unittest import TestCase

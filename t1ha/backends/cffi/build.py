@@ -41,7 +41,7 @@ source = """
 """
 
 ffibuilder.set_source(
-    "t1ha.backends.cffi._hash_cffi",
+    "t1ha.backends.cffi._t1ha",
     source,
     sources=glob.glob("./dep/src/*.c"),
     include_dirs=["./dep"],

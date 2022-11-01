@@ -3,7 +3,7 @@ Copyright (c) 2008-2022 synodriver <synodriver@gmail.com>
 """
 from typing import Tuple
 
-from t1ha.backends.cffi._hash_cffi import ffi, lib
+from t1ha.backends.cffi._t1ha import ffi, lib
 
 
 def hash(data: bytes, seed: int) -> int:

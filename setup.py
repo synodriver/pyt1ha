@@ -20,7 +20,7 @@ for compiler, args in [
 ]:
     BUILD_ARGS[compiler] = args
 
-os.environ["CFLAGS"] = "-march=native" #"-msse4.1 -mfma -mavx -march=native"
+os.environ["CFLAGS"] = "-save-temps -mno-avx2 -mno-avx -maes" # "-msse4.1 -mfma -mavx -march=native"
 
 class build_ext_compiler_check(build_ext):
     def build_extensions(self):
@@ -36,11 +36,11 @@ class build_ext_compiler_check(build_ext):
         super().build_extensions()
 
 
-c_sources = ["t1ha/backends/cython/_hash_cy.pyx"] + glob.glob("./dep/src/*.c")
+c_sources = ["t1ha/backends/cython/_t1ha.pyx"] + glob.glob("./dep/src/*.c")
 # c_sources = list(filter(lambda x: "main" not in x, c_sources))
 extensions = [
     Extension(
-        "t1ha.backends.cython._hash_cy",
+        "t1ha.backends.cython._t1ha",
         c_sources,
         include_dirs=["./dep"],
     ),

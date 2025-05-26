@@ -3,10 +3,13 @@ import glob
 import os
 import re
 import sys
+import sysconfig
 from collections import defaultdict
 
 try:
     from Cython.Build import cythonize
+    from Cython.Compiler.Version import version as cython_version
+    from packaging.version import Version
 except ImportError:
     Cython = None
 from setuptools import Extension, find_packages, setup
@@ -22,12 +25,21 @@ for compiler, args in [
 
 os.environ["CFLAGS"] = "-save-temps -mno-avx2 -mno-avx -maes" # "-msse4.1 -mfma -mavx -march=native"
 
+def has_option(name: str) -> bool:
+    if name in sys.argv[1:]:
+        sys.argv.remove(name)
+        return True
+    name = name.strip("-").upper()
+    if os.environ.get(name, None) is not None:
+        return True
+    return False
+
 class build_ext_compiler_check(build_ext):
     def build_extensions(self):
         compiler = self.compiler.compiler_type
         args = BUILD_ARGS[compiler]
         for ext in self.extensions:
-            ext.extra_compile_args = args
+            ext.extra_compile_args.extend(args)
             if self.compiler.compiler_type == "msvc":
                 ext.define_macros.extend([("restrict", "__restrict")])
             else:
@@ -72,21 +84,29 @@ def has_option(name: str) -> bool:
         return True
     return False
 
+if sysconfig.get_config_var("Py_GIL_DISABLED"):
+    print("build nogil")
+    define_macros = (
+        ("Py_GIL_DISABLED", "1"),
+    )  # ("CYTHON_METH_FASTCALL", "1"), ("CYTHON_VECTORCALL",  1)]
 
+compiler_directives = {
+    "cdivision": True,
+    "embedsignature": True,
+    "boundscheck": False,
+    "wraparound": False,
+}
+if Version(cython_version) >= Version("3.1.0a0"):
+    compiler_directives["freethreading_compatible"] = True
 setup_requires = []
 install_requires = []
 setup_kw = {}
 if has_option("--use-cython"):
     print("building cython")
-    setup_requires.append("cython")
+    setup_requires.append("cython>=3.0.10")
     setup_kw["ext_modules"] = cythonize(
         extensions,
-        compiler_directives={
-            "cdivision": True,
-            "embedsignature": True,
-            "boundscheck": False,
-            "wraparound": False,
-        },
+        compiler_directives=compiler_directives,
     )
 if has_option("--use-cffi"):
     print("building cffi")
@@ -110,7 +130,7 @@ def main():
         long_description=dis,
         author="synodriver",
         author_email="diguohuangjiajinweijun@gmail.com",
-        python_requires=">=3.6",
+        python_requires=">=3.9",
         setup_requires=setup_requires,
         install_requires=install_requires,
         license="BSD",
@@ -121,12 +141,11 @@ def main():
             "Programming Language :: C",
             "Programming Language :: Cython",
             "Programming Language :: Python",
-            "Programming Language :: Python :: 3.6",
-            "Programming Language :: Python :: 3.7",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
             "Programming Language :: Python :: Implementation :: CPython",
             "Programming Language :: Python :: Implementation :: PyPy",
         ],
